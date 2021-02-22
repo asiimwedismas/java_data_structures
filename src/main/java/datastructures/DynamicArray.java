@@ -1,12 +1,10 @@
 package datastructures;
 
-import java.util.Iterator;
-
 @SuppressWarnings("unchecked")
-public class DynamicArray<T> /*implements Iterable<T>*/ {
+public class DynamicArray<T> {
 
     private T[] elements;
-    private int size; // count of elements in array
+    private int length; // count of elements in array
     private int capacity; // total capacity or slots in the array
 
 
@@ -14,20 +12,20 @@ public class DynamicArray<T> /*implements Iterable<T>*/ {
         this(10);
     }
 
-    public DynamicArray(int capacity) {
-        if (capacity < 0)
-            throw new IllegalArgumentException("Initial capacity must be non-negative");
+    public DynamicArray(int initialCapacity) {
+        if (initialCapacity < 0)
+            throw new IllegalArgumentException("Initial initialCapacity must be non-negative");
 
-        this.elements = (T[]) new Object[capacity];
-        this.capacity = capacity;
+        elements = (T[]) new Object[initialCapacity];
+        capacity = initialCapacity;
     }
 
     public int size() {
-        return size;
+        return length;
     }
 
     public boolean isEmpty() {
-        return size() == 0;
+        return length == 0;
     }
 
     public T get(int index) {
@@ -37,7 +35,7 @@ public class DynamicArray<T> /*implements Iterable<T>*/ {
     }
 
     private boolean isIndexValid(int index) {
-        return index >= 0 && index < size();
+        return index >= 0 && index < length;
     }
 
 
@@ -48,50 +46,50 @@ public class DynamicArray<T> /*implements Iterable<T>*/ {
     }
 
     public void clear() {
-        this.elements = (T[]) new Object[0];
-        this.capacity = 0;
+        elements = (T[]) new Object[0];
+        capacity = length = 0;
     }
 
     public void add(T elem) {
-        if (size == capacity) {
-            if (this.capacity == 0) this.capacity = 10;
-            else this.capacity *= 2;
+        if (length == capacity) {
+            if (capacity == 0) capacity = 10;
+            else capacity *= 2;
 
-            T[] newArray = (T[]) new Object[this.capacity];
+            T[] newArray = (T[]) new Object[capacity];
 
-            for (int i = 0; i < this.size; i++) newArray[i] = this.elements[i];
+            for (int i = 0; i < length; i++) newArray[i] = elements[i];
 
-            this.elements = newArray;
+            elements = newArray;
         }
 
-        this.elements[size++] = elem;
+        elements[length++] = elem;
     }
 
     // Removes an element at the specified index in this array.
     public T removeAt(int rm_index) {
         if (!isIndexValid(rm_index)) throw new IndexOutOfBoundsException();
 
-        T elem = this.elements[rm_index];
+        T elem = elements[rm_index];
 
-        for (int i = rm_index; i < this.size; i++) {
-            this.elements[i] = this.elements[i + 1];
+        for (int i = rm_index; i < length; i++) {
+            elements[i] = elements[i + 1];
         }
 
-        this.size--;
+        length--;
 
         return elem;
     }
 
     public boolean remove(Object obj) {
         int indexOfObject = indexOf(obj);
-        if(indexOfObject == -1) return false;
+        if (indexOfObject == -1) return false;
 
         removeAt(indexOfObject);
         return true;
     }
 
     public int indexOf(Object obj) {
-        for (int i = 0; i < this.size; i++) {
+        for (int i = 0; i < length; i++) {
             if (obj == null) {
                 if (elements[i] == null) return i;
             } else {
@@ -105,15 +103,4 @@ public class DynamicArray<T> /*implements Iterable<T>*/ {
     public boolean contains(Object obj) {
         return indexOf(obj) != -1;
     }
-//
-//    // Iterator is still fast but not as fast as iterative for loop
-//    @Override
-//    public Iterator<T> iterator() {
-//
-//    }
-//
-//    @Override
-//    public String toString() {
-//
-//    }
 }
