@@ -74,7 +74,17 @@ public class DoublyLinkedListTest {
         assertThat(list.size()).isEqualTo(4);
         list.addAt(1, 8);
         assertThat(list.size()).isEqualTo(5);
-//        assertThat(list.removeAt(1)).isEqualTo(8);
+
+        java.util.LinkedList<Integer> javaLinkedList = new java.util.LinkedList<>();
+        javaLinkedList.add(0, 1);
+        javaLinkedList.add(1, 2);
+        javaLinkedList.add(1, 3);
+        javaLinkedList.add(2, 4);
+        javaLinkedList.add(1, 8);
+
+        for (Integer integer : javaLinkedList)
+            assertThat(integer).isEqualTo(list.removeFirst());
+
     }
 
     @Test
